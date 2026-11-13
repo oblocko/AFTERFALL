@@ -5,7 +5,7 @@
 Eight years after the bombs fell, you climb out of a shelter into a silent, irradiated Korea.
 Find out who else is still alive — and what really happened at ground zero.
 
-▶ **Play:** https://oblocko.github.io/afterfall/
+▶ **Play:** https://oblocko.github.io/AFTERFALL/
 
 ## Features
 - **Hardcore survival:** health, stamina, hydration, food, radiation dose, bleeding and limb injuries
