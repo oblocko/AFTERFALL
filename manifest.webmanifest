@@ -1,0 +1,15 @@
+{
+  "name": "AFTERFALL",
+  "short_name": "AFTERFALL",
+  "description": "핵전쟁 8년 후 — 극사실주의 생존 FPS",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#050605",
+  "theme_color": "#050605",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
