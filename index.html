@@ -261,6 +261,32 @@ body.touch .screen, body.touch #inventory { overflow-y: auto; -webkit-overflow-s
 body.touch .screen { align-items: flex-start; } body.touch .screen > * { margin-top: auto; margin-bottom: auto; } /* centred when it fits, scrolls from the top when it doesn't (never cut off) */
 body.touch #mapsel, body.touch #inventory { place-items: safe center; overflow-y: auto; }
 #rotatehint { display: none; }
+/* ---------- flight mode: readout (M) and the time / weather panels (T / R) ---------- */
+#flyinfo { display: none; } #flyinfo.on { display: flex; position: fixed; z-index: 60; top: 16px; left: 16px; gap: 8px; zoom: 1; font-family: var(--f-mono); font-size: 14px; pointer-events: none; }
+#flyinfo span { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; background: rgba(8,10,12,.62); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 4px 16px rgba(0,0,0,.35); }
+#flyinfo .fi-w { color: #bfe0ff; border: 1px solid rgba(140,190,240,.45); } #flyinfo .fi-t { color: #ffd98a; border: 1px solid rgba(240,200,110,.45); font-variant-numeric: tabular-nums; }
+#flypanel { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; background: rgba(0,0,0,.25); }
+#flypanel[hidden] { display: none; }
+#flypanel .fp-card { width: min(420px, calc(100vw - 32px)); padding: 18px 20px 14px; border-radius: 18px; background: rgba(14,16,18,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.12); box-shadow: 0 20px 60px rgba(0,0,0,.55); color: #ecebe4; animation: boxIn .25s ease-out both; }
+#flypanel[data-kind="time"] .fp-card { border-top: 3px solid #f0c25a; } #flypanel[data-kind="wx"] .fp-card { border-top: 3px solid #7fb8ee; }
+#flypanel .fp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; } #flypanel .fp-head b { font-size: 15px; letter-spacing: .08em; }
+#flypanel .fp-x { width: 30px; height: 30px; border-radius: 50%; border: 0; background: rgba(255,255,255,.08); color: #ddd; cursor: pointer; }
+#flypanel .fp-big { text-align: center; font-family: var(--f-mono); font-size: 52px; font-weight: 600; color: #ffd98a; letter-spacing: .04em; font-variant-numeric: tabular-nums; margin: 4px 0 10px; }
+#flypanel input[type=range] { width: 100%; accent-color: #f0c25a; height: 22px; }
+#flypanel .fp-ticks { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 10.5px; color: #7d7f78; margin: 0 2px 12px; }
+#flypanel .fp-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+#flypanel button { font: inherit; cursor: pointer; }
+#flypanel .fp-chips button, #flypanel .fp-grid button, #flypanel .fp-fog button { border-radius: 10px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.05); color: #e4e3dc; padding: 8px 6px; font-size: 13px; transition: background .15s, border-color .15s; }
+#flypanel .fp-chips button small { display: block; font-family: var(--f-mono); font-size: 10.5px; color: #8d8f86; margin-top: 2px; }
+#flypanel .fp-chips button:hover, #flypanel .fp-grid button:hover, #flypanel .fp-fog button:hover { background: rgba(255,255,255,.1); }
+#flypanel .fp-run { width: 100%; margin-top: 10px; padding: 10px; border-radius: 10px; border: 1px solid rgba(240,194,90,.5); background: rgba(240,194,90,.1); color: #ffd98a; font-size: 13.5px; }
+#flypanel .fp-run.on { background: rgba(240,194,90,.28); }
+#flypanel .fp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+#flypanel .fp-grid button { padding: 12px 6px 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+#flypanel .fp-grid button i { font-style: normal; font-size: 26px; line-height: 1; }
+#flypanel .fp-grid button.on, #flypanel .fp-fog button.on { border-color: #7fb8ee; background: rgba(127,184,238,.2); color: #fff; }
+#flypanel .fp-fog { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 13px; color: #9a9c94; } #flypanel .fp-fog span { margin-right: 4px; } #flypanel .fp-fog button { flex: 1; }
+#flypanel .fp-hint { margin-top: 12px; text-align: center; font-size: 11px; color: #6c6e67; }
 #updatecard { position: fixed; z-index: 80; top: calc(14px + env(safe-area-inset-top, 0px)); left: 50%; width: min(380px, calc(100vw - 28px)); display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 16px 18px 14px 16px; border-radius: 16px; border: 1px solid rgba(226,196,90,.38); background: linear-gradient(160deg, rgba(34,31,20,.94), rgba(14,15,12,.95)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 14px 40px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,240,190,.08); color: #e8e4d0; transform: translate(-50%, -140%); opacity: 0; transition: transform .42s cubic-bezier(.2,.9,.25,1.15), opacity .3s; }
 #updatecard.in { transform: translate(-50%, 0); opacity: 1; } #updatecard.out { transform: translate(-50%, -140%); opacity: 0; transition-duration: .25s; }
 #updatecard .uc-icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: radial-gradient(circle at 30% 25%, #f0cf62, #b8901c); color: #1a1608; box-shadow: 0 4px 14px rgba(201,162,39,.35); }
@@ -364,7 +390,7 @@ body.touch #hitmarker { pointer-events: none; }
       <button id="mm-ctrl">조작법</button>
       <button id="mm-quit">게임 종료</button>
     </nav>
-    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.90 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
+    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.91 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
   </div>
 </section>
 
