@@ -31,12 +31,20 @@ kbd { font-family: var(--f-mono); font-size: 0.78em; padding: 1px 6px; border: 1
 
 /* ---------- loading ---------- */
 #loading { position: fixed; inset: 0; z-index: 50; overflow: hidden; display: grid; place-items: center; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); background: #07080a; transition: opacity .7s ease; }
-#loading .load-bg { position: absolute; inset: 0; background-color: #0b0d0f; background-image: url("load_bg.jpg"), radial-gradient(ellipse 90% 60% at 50% 110%, rgba(150,96,36,.32), transparent 70%), radial-gradient(ellipse 80% 70% at 50% 35%, #1a1d1f, #07080a 80%); background-size: cover, auto, auto; background-position: center; animation: bgDrift 40s ease-in-out infinite alternate; }
+#loading .load-bg { position: absolute; inset: 0; background-color: #0b0d0f; background-image: radial-gradient(ellipse 90% 60% at 50% 110%, rgba(150,96,36,.32), transparent 70%), radial-gradient(ellipse 80% 70% at 50% 35%, #1a1d1f, #07080a 80%); background-size: auto, auto; background-position: center; animation: bgDrift 40s ease-in-out infinite alternate; }
 @keyframes bgDrift { from { transform: scale(1.04); } to { transform: scale(1.1) translateY(-1%); } }
 #loading::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, transparent 25%, transparent 55%, rgba(0,0,0,.65) 100%), radial-gradient(ellipse 120% 90% at 50% 50%, transparent 55%, rgba(0,0,0,.45)); }
 #loading.leaving { opacity: 0; pointer-events: none; }
+/* chosen photo (+ its cut-out foreground: flags, buildings, hills drawn over the logo) */
+#loading .load-shot, #loading .load-fg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.2s ease; animation: bgDrift 40s ease-in-out infinite alternate; pointer-events: none; }
+#loading .load-shot.on, #loading .load-fg.on { opacity: 1; }
+#loading .load-fg { z-index: 2; }
+#loading .load-box .brand, #loading .load-box .brand-sub { position: relative; z-index: 1; }
+#loading .load-notice, #loading .load-cta { position: relative; z-index: 3; }
+#loading .load-prog, #loading .load-top { z-index: 4; }
 #load-ash { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .7; }
-.load-box { position: relative; width: min(760px, 100%); text-align: center; display: flex; flex-direction: column; align-items: center; margin-top: 4vh; animation: boxIn 1.2s cubic-bezier(.2,.8,.2,1) both; }
+.load-box { width: min(760px, 100%); text-align: center; display: flex; flex-direction: column; align-items: center; margin-top: 4vh; animation: boxFade 1.2s ease both; } /* no transform/position here: the logo must layer between the photo and its foreground cut-out */
+@keyframes boxFade { from { opacity: 0; } }
 @keyframes boxIn { from { opacity: 0; transform: translateY(12px); } }
 .brand { font-family: var(--f-display); font-weight: 700; letter-spacing: 0.32em; font-size: clamp(44px, 8vw, 96px); line-height: 0.9; margin: 0; color: #ece9dc; text-wrap: balance; text-shadow: 0 0 40px rgba(217,169,46,.12); }
 .brand-sub { font-family: var(--f-mono); color: var(--dim); font-size: 13px; letter-spacing: 0.2em; margin-top: 14px; text-transform: uppercase; }
@@ -362,7 +370,8 @@ body.touch #hitmarker { pointer-events: none; }
 <canvas id="game" aria-label="AFTERFALL 게임 화면"></canvas>
 
 <div id="loading">
-  <div class="load-bg" aria-hidden="true"></div>
+  <div class="load-bg" aria-hidden="true"><div class="load-shot"></div></div>
+  <div class="load-fg" aria-hidden="true"></div>
   <canvas id="load-ash" aria-hidden="true"></canvas>
   <div class="load-top"><span id="load-ver"></span></div>
   <div class="load-box">
@@ -390,7 +399,7 @@ body.touch #hitmarker { pointer-events: none; }
       <button id="mm-ctrl">조작법</button>
       <button id="mm-quit">게임 종료</button>
     </nav>
-    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.93 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
+    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.94 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
   </div>
 </section>
 
