@@ -44,15 +44,21 @@ kbd { font-family: var(--f-mono); font-size: 0.78em; padding: 1px 6px; border: 1
 @keyframes blink { 50% { opacity: .25; } }
 .brand { font-family: var(--f-display); font-weight: 700; letter-spacing: 0.32em; font-size: clamp(44px, 8vw, 96px); line-height: 0.9; margin: 0; color: #ece9dc; text-wrap: balance; text-shadow: 0 0 40px rgba(217,169,46,.12); }
 .brand-sub { font-family: var(--f-mono); color: var(--dim); font-size: 13px; letter-spacing: 0.2em; margin-top: 14px; text-transform: uppercase; }
-.load-prog { margin-top: 40px; }
-.lp-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 9px; }
-#load-status { font-family: var(--f-mono); font-size: 12px; color: #a3a596; min-height: 1.4em; }
+.load-prog { position: absolute; left: 0; right: 0; bottom: 0; }
+.lp-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 0 max(22px, env(safe-area-inset-right, 0px)) 10px max(22px, env(safe-area-inset-left, 0px)); }
+#load-status { font-family: var(--f-mono); font-size: 12px; letter-spacing: .04em; color: #a3a596; min-height: 1.4em; }
+.lp-right { display: flex; align-items: center; gap: 12px; }
 #load-pct { font-family: var(--f-mono); font-size: 12px; color: #d9b54a; font-variant-numeric: tabular-nums; }
-#load-bar { height: 4px; border-radius: 4px; background: rgba(255,255,255,.07); overflow: hidden; position: relative; }
-#load-bar::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--v, 0%); border-radius: 4px; background: linear-gradient(90deg, #8c6a14, #e6c050); box-shadow: 0 0 12px rgba(230,192,80,.55); transition: width .35s ease; }
-#load-bar::after { content: ""; position: absolute; top: 0; bottom: 0; width: 60px; left: calc(var(--v, 0%) - 60px); background: linear-gradient(90deg, transparent, rgba(255,240,190,.55), transparent); animation: shimmer 1.4s ease-in-out infinite; }
+.lp-spin { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(217,181,74,.18); border-top-color: #e6c050; border-right-color: rgba(230,192,80,.55); animation: lpSpin .8s linear infinite; }
+@keyframes lpSpin { to { transform: rotate(360deg); } }
+.lp-done { display: none; width: 20px; height: 20px; color: #e6c050; }
+#loading.ready .lp-spin { display: none; } #loading.ready .lp-done { display: block; animation: boxIn .4s ease-out both; }
+#load-bar { height: 5px; background: rgba(255,255,255,.06); position: relative; overflow: hidden; }
+#load-bar::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--v, 0%); background: linear-gradient(90deg, #7d5e12, #e6c050); box-shadow: 0 0 14px rgba(230,192,80,.6); transition: width .35s ease; }
+#load-bar::after { content: ""; position: absolute; top: 0; bottom: 0; width: 120px; left: calc(var(--v, 0%) - 120px); background: linear-gradient(90deg, transparent, rgba(255,244,200,.7), transparent); animation: shimmer 1.4s ease-in-out infinite; }
 @keyframes shimmer { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
 #loading.ready #load-bar::after { display: none; }
+.load-top { position: absolute; top: calc(16px + env(safe-area-inset-top, 0px)); left: max(22px, env(safe-area-inset-left, 0px)); right: max(22px, env(safe-area-inset-right, 0px)); display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; color: #55574e; }
 #load-tip { margin-top: 26px; min-height: 2.9em; display: flex; gap: 12px; align-items: baseline; font-size: 13.5px; line-height: 1.6; color: #b9baad; transition: opacity .45s; }
 #load-tip b { flex: none; font-family: var(--f-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; color: #d9b54a; padding: 2px 7px; border: 1px solid rgba(217,181,74,.45); border-radius: 5px; }
 #load-tip.fade { opacity: 0; }
@@ -60,7 +66,6 @@ kbd { font-family: var(--f-mono); font-size: 0.78em; padding: 1px 6px; border: 1
 #load-start:hover { background: linear-gradient(180deg, rgba(217,181,74,.3), rgba(217,181,74,.12)); transform: translateY(-1px); }
 @keyframes startGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(226,196,90,.0), 0 0 18px rgba(226,196,90,.12); } 50% { box-shadow: 0 0 0 6px rgba(226,196,90,.08), 0 0 28px rgba(226,196,90,.3); } }
 .load-note { color: #74766b; font-size: 12px; line-height: 1.7; margin-top: 22px; max-width: 540px; }
-.load-foot { position: absolute; left: max(24px, env(safe-area-inset-left, 0px)); right: max(24px, env(safe-area-inset-right, 0px)); bottom: 18px; display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; color: #55574e; }
 @keyframes pulse { 50% { opacity: .55; } }
 
 /* ---------- screens / menus ---------- */
@@ -336,15 +341,15 @@ body.touch #hitmarker { pointer-events: none; }
     <div class="load-kicker"><span class="lk-dot"></span>남부 거점 주파수 147.2 MHz</div>
     <h1 class="brand">AFTERFALL</h1>
     <div class="brand-sub">2043 · 핵전쟁 8년 후</div>
-    <div class="load-prog">
-      <div class="lp-row"><div id="load-status">불러오는 중…</div><div id="load-pct">0%</div></div>
-      <div id="load-bar"></div>
-    </div>
     <div id="load-tip"><b>생존 수칙</b><span></span></div>
     <button id="load-start" hidden><span>클릭하여 시작</span></button>
     <p class="load-note">헤드폰을 권장합니다. 모든 질감·모델·소리는 브라우저에서 실시간으로 생성됩니다.<br>게임을 시작하면 전체 화면과 마우스 잠금을 요청합니다. 마우스가 잠기지 않는 환경에서는 화면을 클릭한 뒤 마우스를 움직여 시점을 돌릴 수 있습니다.</p>
   </div>
-  <div class="load-foot"><span id="load-ver"></span><span>헤드폰 권장</span></div>
+  <div class="load-top"><span id="load-ver"></span><span>헤드폰 권장</span></div>
+  <div class="load-prog">
+    <div class="lp-row"><div id="load-status">불러오는 중…</div><div class="lp-right"><span id="load-pct">0%</span><span class="lp-spin" aria-hidden="true"></span><svg class="lp-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div id="load-bar"></div>
+  </div>
 </div>
 
 <section id="mainmenu" class="screen" hidden>
@@ -360,7 +365,7 @@ body.touch #hitmarker { pointer-events: none; }
       <button id="mm-ctrl">조작법</button>
       <button id="mm-quit">게임 종료</button>
     </nav>
-    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.86 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
+    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.87 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
   </div>
 </section>
 
