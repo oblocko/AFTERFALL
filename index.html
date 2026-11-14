@@ -30,17 +30,37 @@ kbd { font-family: var(--f-mono); font-size: 0.78em; padding: 1px 6px; border: 1
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- loading ---------- */
-#loading { position: fixed; inset: 0; z-index: 50; background: #050605; display: grid; place-items: center; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.load-box { width: min(560px, 100%); }
-.brand { font-family: var(--f-display); font-weight: 700; letter-spacing: 0.32em; font-size: clamp(44px, 8vw, 92px); line-height: 0.9; margin: 0; color: #e8e6da; text-wrap: balance; }
+#loading { position: fixed; inset: 0; z-index: 50; overflow: hidden; display: grid; place-items: center; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px));
+  background: radial-gradient(ellipse 90% 55% at 50% 118%, rgba(150,92,30,.34), rgba(60,40,18,.12) 45%, transparent 70%), radial-gradient(ellipse 70% 60% at 50% 40%, #0d0f0c, #050605 75%); transition: opacity .7s ease; }
+#loading::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(255,255,255,.018) 0 1px, transparent 1px 3px); mix-blend-mode: overlay; }
+#loading.leaving { opacity: 0; pointer-events: none; }
+#load-ash { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.load-mark { position: absolute; right: -9vmin; top: 50%; width: 78vmin; height: 78vmin; transform: translateY(-50%) rotate(-8deg); color: rgba(201,162,39,.055); pointer-events: none; animation: markSpin 140s linear infinite; }
+@keyframes markSpin { to { transform: translateY(-50%) rotate(352deg); } }
+.load-box { position: relative; width: min(600px, 100%); animation: boxIn 1s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes boxIn { from { opacity: 0; transform: translateY(14px); } }
+.load-kicker { display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .22em; color: #8d8f80; margin-bottom: 18px; }
+.lk-dot { width: 7px; height: 7px; border-radius: 50%; background: #d9a92e; box-shadow: 0 0 10px #d9a92e; animation: blink 1.6s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+.brand { font-family: var(--f-display); font-weight: 700; letter-spacing: 0.32em; font-size: clamp(44px, 8vw, 96px); line-height: 0.9; margin: 0; color: #ece9dc; text-wrap: balance; text-shadow: 0 0 40px rgba(217,169,46,.12); }
 .brand-sub { font-family: var(--f-mono); color: var(--dim); font-size: 13px; letter-spacing: 0.2em; margin-top: 14px; text-transform: uppercase; }
-.bar { height: 3px; background: rgba(255,255,255,0.08); position: relative; overflow: hidden; }
-.bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--v, 0%); background: var(--accent); transition: width .3s; }
-#load-bar { margin-top: 36px; }
-#load-status { font-family: var(--f-mono); font-size: 12px; color: var(--dim); margin-top: 10px; min-height: 1.4em; }
-#load-start { margin-top: 28px; background: none; border: 1px solid var(--accent); color: var(--accent); padding: 12px 28px; font-family: var(--f-display); font-size: 20px; letter-spacing: 0.24em; cursor: pointer; animation: pulse 2s infinite; }
-#load-start:hover { background: var(--accent-dim); }
-.load-note { color: var(--dim); font-size: 12px; line-height: 1.7; margin-top: 26px; max-width: 520px; }
+.load-prog { margin-top: 40px; }
+.lp-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 9px; }
+#load-status { font-family: var(--f-mono); font-size: 12px; color: #a3a596; min-height: 1.4em; }
+#load-pct { font-family: var(--f-mono); font-size: 12px; color: #d9b54a; font-variant-numeric: tabular-nums; }
+#load-bar { height: 4px; border-radius: 4px; background: rgba(255,255,255,.07); overflow: hidden; position: relative; }
+#load-bar::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--v, 0%); border-radius: 4px; background: linear-gradient(90deg, #8c6a14, #e6c050); box-shadow: 0 0 12px rgba(230,192,80,.55); transition: width .35s ease; }
+#load-bar::after { content: ""; position: absolute; top: 0; bottom: 0; width: 60px; left: calc(var(--v, 0%) - 60px); background: linear-gradient(90deg, transparent, rgba(255,240,190,.55), transparent); animation: shimmer 1.4s ease-in-out infinite; }
+@keyframes shimmer { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+#loading.ready #load-bar::after { display: none; }
+#load-tip { margin-top: 26px; min-height: 2.9em; display: flex; gap: 12px; align-items: baseline; font-size: 13.5px; line-height: 1.6; color: #b9baad; transition: opacity .45s; }
+#load-tip b { flex: none; font-family: var(--f-mono); font-size: 10.5px; font-weight: 600; letter-spacing: .14em; color: #d9b54a; padding: 2px 7px; border: 1px solid rgba(217,181,74,.45); border-radius: 5px; }
+#load-tip.fade { opacity: 0; }
+#load-start { margin-top: 26px; position: relative; background: linear-gradient(180deg, rgba(217,181,74,.16), rgba(217,181,74,.06)); border: 1px solid rgba(226,196,90,.75); border-radius: 10px; color: #f2d77a; padding: 14px 34px; font-family: var(--f-display); font-size: 21px; letter-spacing: 0.24em; cursor: pointer; animation: startGlow 2.2s ease-in-out infinite; transition: background .2s, transform .15s; }
+#load-start:hover { background: linear-gradient(180deg, rgba(217,181,74,.3), rgba(217,181,74,.12)); transform: translateY(-1px); }
+@keyframes startGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(226,196,90,.0), 0 0 18px rgba(226,196,90,.12); } 50% { box-shadow: 0 0 0 6px rgba(226,196,90,.08), 0 0 28px rgba(226,196,90,.3); } }
+.load-note { color: #74766b; font-size: 12px; line-height: 1.7; margin-top: 22px; max-width: 540px; }
+.load-foot { position: absolute; left: max(24px, env(safe-area-inset-left, 0px)); right: max(24px, env(safe-area-inset-right, 0px)); bottom: 18px; display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; color: #55574e; }
 @keyframes pulse { 50% { opacity: .55; } }
 
 /* ---------- screens / menus ---------- */
@@ -310,14 +330,21 @@ body.touch #hitmarker { pointer-events: none; }
 <canvas id="game" aria-label="AFTERFALL 게임 화면"></canvas>
 
 <div id="loading">
+  <canvas id="load-ash" aria-hidden="true"></canvas>
+  <svg class="load-mark" viewBox="0 0 100 100" aria-hidden="true"><g fill="currentColor"><path d="M50 50 L33 20.6 A34 34 0 0 1 67 20.6 Z"/><path d="M50 50 L84 50 A34 34 0 0 1 67 79.4 Z"/><path d="M50 50 L33 79.4 A34 34 0 0 1 16 50 Z"/></g><circle cx="50" cy="50" r="9" fill="none" stroke="currentColor" stroke-width="4"/><path d="M46 8 L52 22 L47 30 L54 41" fill="none" stroke="#050605" stroke-width="2.4"/></svg>
   <div class="load-box">
+    <div class="load-kicker"><span class="lk-dot"></span>남부 거점 주파수 147.2 MHz</div>
     <h1 class="brand">AFTERFALL</h1>
     <div class="brand-sub">2043 · 핵전쟁 8년 후</div>
-    <div id="load-bar" class="bar"></div>
-    <div id="load-status">불러오는 중…</div>
-    <button id="load-start" hidden>클릭하여 시작</button>
+    <div class="load-prog">
+      <div class="lp-row"><div id="load-status">불러오는 중…</div><div id="load-pct">0%</div></div>
+      <div id="load-bar"></div>
+    </div>
+    <div id="load-tip"><b>생존 수칙</b><span></span></div>
+    <button id="load-start" hidden><span>클릭하여 시작</span></button>
     <p class="load-note">헤드폰을 권장합니다. 모든 질감·모델·소리는 브라우저에서 실시간으로 생성됩니다.<br>게임을 시작하면 전체 화면과 마우스 잠금을 요청합니다. 마우스가 잠기지 않는 환경에서는 화면을 클릭한 뒤 마우스를 움직여 시점을 돌릴 수 있습니다.</p>
   </div>
+  <div class="load-foot"><span id="load-ver"></span><span>헤드폰 권장</span></div>
 </div>
 
 <section id="mainmenu" class="screen" hidden>
@@ -333,7 +360,7 @@ body.touch #hitmarker { pointer-events: none; }
       <button id="mm-ctrl">조작법</button>
       <button id="mm-quit">게임 종료</button>
     </nav>
-    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.85 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
+    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.86 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
   </div>
 </section>
 
