@@ -370,6 +370,21 @@ body.touch #hitmarker { pointer-events: none; }
 @media (max-width: 700px) { .srow { grid-template-columns: 1fr 120px 40px; } .keys { grid-template-columns: 1fr; } .trade-wrap { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
   .sv-info{margin:0 0 14px;font-size:14px;line-height:1.6;opacity:.85;white-space:pre-line}
+
+/* credits: one still photo, the list in white on its dark left side (role right-aligned | name left-aligned, like a film's end card) */
+#credits { position: fixed; inset: 0; z-index: 60; background: #050608 center / cover no-repeat; cursor: pointer; animation: crIn 1.2s ease both; }
+#credits[hidden] { display: none; }
+@keyframes crIn { from { opacity: 0; } }
+#credits::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.62), rgba(0,0,0,0.25) 48%, rgba(0,0,0,0) 70%); pointer-events: none; }
+#credits .cr-panel { position: absolute; left: 7vw; top: 50%; transform: translateY(-50%); width: min(460px, 46vw); color: #fff; font-family: var(--f-body); text-shadow: 0 1px 6px rgba(0,0,0,0.6); animation: crUp 1.6s 0.3s ease both; }
+@keyframes crUp { from { opacity: 0; transform: translateY(calc(-50% + 14px)); } }
+#credits .cr-h { text-align: center; font-size: 30px; font-weight: 700; letter-spacing: 0.02em; margin: 0 0 18px; }
+#credits .cr-list + .cr-h { margin-top: 42px; }
+#credits .cr-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 22px; row-gap: 7px; margin: 0; font-size: 17px; }
+#credits .cr-list dt { text-align: right; color: rgba(255,255,255,0.78); font-weight: 400; margin: 0; }
+#credits .cr-list dd { text-align: left; margin: 0; font-weight: 500; letter-spacing: 0.02em; }
+#credits .cr-list dd small { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.12em; margin-left: 4px; }
+#credits .cr-skip { position: absolute; right: 26px; bottom: 22px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; color: rgba(255,255,255,0.45); }
 </style>
 </head>
 <body>
@@ -393,6 +408,22 @@ body.touch #hitmarker { pointer-events: none; }
   </div>
 </div>
 
+<div id="credits" hidden aria-label="크레딧">
+  <div class="cr-panel">
+    <div class="cr-h">크레딧</div>
+    <dl class="cr-list">
+      <dt>제작</dt><dd>Claude</dd><dt></dt><dd>ChatGPT</dd>
+    </dl>
+    <div class="cr-h">자료</div>
+    <dl class="cr-list">
+      <dt>3D 모델</dt><dd>CGTrader</dd><dt></dt><dd>3Dmodels</dd><dt></dt><dd>TurboSquid</dd><dt></dt><dd>Poly Haven <small>CC0</small></dd>
+      <dt>재질 · 텍스처</dt><dd>Poly Haven <small>CC0</small></dd>
+      <dt>사운드</dt><dd>Pixabay</dd><dt></dt><dd>ElevenLabs</dd>
+      <dt>엔진</dt><dd>three.js</dd>
+    </dl>
+  </div>
+  <div class="cr-skip">클릭 또는 Esc — 메뉴로</div>
+</div>
 <section id="mainmenu" class="screen" hidden>
   <div class="slab">
     <h1 class="brand">AFTERFALL</h1>
@@ -404,9 +435,10 @@ body.touch #hitmarker { pointer-events: none; }
       <button id="mm-saves">세이브 파일<small>내보내기 · 파일에서 불러오기 · 백업</small></button>
       <button id="mm-set">설정</button>
       <button id="mm-ctrl">조작법</button>
+      <button id="mm-credits">크레딧</button>
       <button id="mm-quit">게임 종료</button>
     </nav>
-    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.101 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
+    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.102 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
   </div>
 </section>
 
