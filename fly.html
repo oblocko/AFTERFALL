@@ -41,6 +41,11 @@ kbd { font-family: var(--f-mono); font-size: 0.78em; padding: 1px 6px; border: 1
 #loading .load-shot.on, #loading .load-fg.on { opacity: 1; }
 #loading .load-fg { z-index: 2; }
 #loading .load-box .brand, #loading .load-box .brand-sub { position: relative; z-index: 1; }
+/* subway photo: the logo hangs in the tunnel mouth; where it runs over the near walls it is cracked, worn and a little soft. Two text layers on the same h1: ::before = worn copy (outside the mouth), ::after = clean copy (inside it); clip polygons follow the drifting photo (set per frame in LoadFX) */
+#loading.shot-tunnel .brand { color: transparent; text-shadow: none; }
+#loading.shot-tunnel .brand::before, #loading.shot-tunnel .brand::after { content: attr(data-t); position: absolute; inset: 0; padding: inherit; color: rgba(246,243,232,.94); text-shadow: 0 2px 30px rgba(0,0,0,.55), 0 0 60px rgba(255,236,190,.12); pointer-events: none; }
+#loading.shot-tunnel .brand::after { clip-path: var(--t-in, inset(0)); }
+#loading.shot-tunnel .brand::before { clip-path: var(--t-out, inset(0 0 0 100%)); color: rgba(226,222,208,.55); text-shadow: 0 2px 18px rgba(0,0,0,.6); filter: blur(1.5px); -webkit-mask-image: var(--crack); mask-image: var(--crack); -webkit-mask-size: 100% 100%; mask-size: 100% 100%; }
 #loading .load-notice, #loading .load-cta { position: relative; z-index: 3; }
 #loading .load-prog, #loading .load-top { z-index: 4; }
 #load-ash { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .7; }
@@ -401,7 +406,7 @@ body.touch #hitmarker { pointer-events: none; }
       <button id="mm-ctrl">조작법</button>
       <button id="mm-quit">게임 종료</button>
     </nav>
-    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.95 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
+    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.96 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
   </div>
 </section>
 
