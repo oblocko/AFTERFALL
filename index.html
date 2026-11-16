@@ -117,6 +117,8 @@ body.touch #load-start kbd { display: none; } body.touch #load-start { padding: 
 #hud { position: fixed; inset: 0; z-index: 10; pointer-events: none; font-family: var(--f-body); }
 body.cinema #hud { display: none; }
 .vitals { position: absolute; left: max(22px, env(safe-area-inset-left, 0px)); bottom: 22px; width: 250px; display: grid; gap: 7px; }
+.bar { height: 3px; background: rgba(255,255,255,0.08); position: relative; overflow: hidden; }
+.bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--v, 0%); background: var(--accent); transition: width .3s; }
 .vit { display: grid; grid-template-columns: 34px 1fr 30px; align-items: center; gap: 8px; font-family: var(--f-mono); font-size: 11px; color: var(--dim); }
 .vit .bar { height: 4px; } .vit .bar::after { background: #d8dccb; } .vit .bar.warn::after { background: var(--danger); animation: pulse 1s infinite; }
 .vit b { color: var(--text); font-weight: 600; text-align: right; }
@@ -438,7 +440,7 @@ body.touch #hitmarker { pointer-events: none; }
       <button id="mm-credits">크레딧</button>
       <button id="mm-quit">게임 종료</button>
     </nav>
-    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.103 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
+    <div class="foot">남부 거점 주파수 147.2 MHz<br><span id="ver">v0.104 ALPHA</span> · 저장은 이 브라우저에 남고, 세이브 파일로 따로 보관할 수 있습니다</div>
   </div>
 </section>
 
@@ -572,7 +574,7 @@ body.touch #hitmarker { pointer-events: none; }
   <div id="toasts"></div>
   <div id="useprog" hidden><span></span></div>
   <div class="vitals">
-    <div class="status"><span id="st-bleed" hidden>출혈</span><span id="st-load" hidden></span><span id="st-rad" hidden>방사선 피폭</span><span id="st-mask" hidden>방독면</span><span id="st-iod" hidden>요오드</span><span id="st-light" hidden>손전등</span></div>
+    <div class="status"><span id="st-bleed" hidden>출혈</span><span id="st-load" hidden></span><span id="st-rad" hidden>방사선 피폭</span><span id="st-mask" hidden>방독면</span><span id="st-iod" hidden>요오드</span><span id="st-light" hidden>손전등</span><span id="st-nvg" hidden>야간 투시경</span></div>
     <div class="vit"><span>체력</span><div class="bar" id="b-hp"></div><b id="v-hp">100</b></div>
     <div class="vit"><span>기력</span><div class="bar" id="b-st"></div><b id="v-st">100</b></div>
     <div class="vit"><span>수분</span><div class="bar" id="b-wa"></div><b id="v-wa">100</b></div>
